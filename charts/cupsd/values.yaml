@@ -1,0 +1,17 @@
+name: cupsd
+
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: olbat/cupsd
+  tag: latest
+  pullPolicy: IfNotPresent
+
+containers:
+  ports:
+    containerPort: 631
+
+service:
+  type: ClusterIP
+  port: 631

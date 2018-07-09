@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.name }}
+  labels:
+{{- include "cupsd.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "cupsd.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "cupsd.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      hostNetwork: true
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.name }}
+              containerPort: {{ .Values.containers.ports.containerPort }}
+              protocol: TCP

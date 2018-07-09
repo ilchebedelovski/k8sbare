@@ -1,0 +1,2 @@
+env: development
+k8s_namespace: development

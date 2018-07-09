@@ -1,0 +1,11 @@
+appVersion: 2.2.4
+description: A Helm chart for Cups (Print Server)
+engine: gotpl
+maintainers:
+- email: ilche.bedelovski@gmail.com
+  name: ibedelovski
+name: cupsd
+sources:
+- https://github.com/olbat/dockerfiles/tree/master/cupsd
+version: 0.1.0
+

@@ -1,0 +1,62 @@
+- name: Check if should deploy "{{ release_name }}" on environment "{{ env }}"
+  block:
+    - name: Check if should deploy chart into environment "{{ env }}"
+      stat:
+        path: "{{ vars_path }}"
+      register: vars_file
+
+- name: Deploy "{{ release_name }}" on environment "{{ env }}"
+  when: vars_file.stat.exists
+  vars:
+    release_fullname: "{{ release_name }}-{{ env }}"
+    ingress_class: "nginx-{{ env }}"
+  block:
+    - name: Create tempfile to hold helm secret variables
+      tempfile:
+        state: file
+      register: _tmpfile
+
+    - name: Decrypt helm secret variables
+      copy:
+        src: "{{ secret_vars_path }}"
+        dest: "{{ _tmpfile.path }}"
+      when: secret_vars_path | default(false)
+
+    - name: Set helm values files variables
+      block:
+        - set_fact:
+            helm_vars_parameter: "{{ '-f ' + vars_path }}"
+        - set_fact:
+            helm_private_vars_parameter: "{{ '-f ' + _tmpfile.path }}"
+          when: secret_vars_path | default(false)
+
+    - name: Install/upgrade chart "{{ chart_dir | basename }}" as release "{{ release_fullname }}" into namespace "{{ k8s_namespace }}"
+      shell: >
+        helm upgrade
+        --wait
+        --install {{ release_fullname }}
+        --namespace {{ k8s_namespace }}
+        --set controller.ingressClass={{ ingress_class }}
+        {{ chart_dir }}
+        {{ helm_vars_parameter }}
+        {{ helm_private_vars_parameter | default }}
+        {{ helm_extra_vars | default }}
+        {{ extra_helm_options | default }}
+      register: out
+      tags:
+        - skip_ansible_lint  # The "helm" Ansible rule is broken, so we need to use the CLI directly
+      when: helm_vars_parameter | default(false)  # Skip if the role has no "{{ env }}.yaml"
+    - debug: var=out.stdout_lines
+      when: out.stdout_lines is defined
+  always:
+    - name: Remove tempfile with secrets
+      file:
+        path: "{{ _tmpfile.path }}"
+        state: absent
+# This avoids multiple runs variable's messing with each other
+- name: Clear vars state
+  set_fact:
+    vars_file: ""
+    secret_vars_path: ""
+    helm_vars_parameter: ""
+    helm_private_vars_parameter: ""

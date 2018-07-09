@@ -1,0 +1,20 @@
+- name: Add Google DNS servers
+  shell: kubectl apply -f "{{ role_path }}/files/kube-dns-configmap.yaml"
+
+- name: Setting up Helm
+  block:
+    - name: Create and bind Tiller Service Accound to "cluster-admin" role
+      shell: kubectl apply -f "{{ role_path }}/files/rbac-tiller.yaml" --namespace "kube-system"
+      tags:
+        - skip_ansible_lint # Reminder
+    - name: Upgrade the Helm Tiller to use the previously created ServiceAccount
+      shell: helm init --upgrade --service-account tiller --wait
+      tags:
+        - skip_ansible_lint
+
+- name: Setting up Nginx ingress controller
+  block:
+    - name: Install or upgreade Helm chart for Nginx ingress controller
+      shell: helm install --name nginx-ingress . --set controller.replicaCount=2
+      tags:
+        - skip_ansible_lint

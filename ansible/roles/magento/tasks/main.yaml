@@ -1,0 +1,7 @@
+- name: Deploy "{{ release_name }}" to environment "{{ env }}"
+  vars:
+    release_name: magento
+    chart_dir: "{{ charts_dir }}/magento"
+    vars_path: "{{ playbook_dir }}/roles/magento/files/{{ env }}.yaml"
+  include_role:
+    name: deploy-service

@@ -1,0 +1,7 @@
+- name: Deploy charts
+  hosts: localhost
+  vars:
+    charts_dir: "{{ playbook_dir }}/../charts"
+  roles:
+    - { role: kubernetes, tags: ["kubernetes"] }
+    - { role: cupsd, tags: ["cupsd"] }

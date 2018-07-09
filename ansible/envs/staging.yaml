@@ -1,0 +1,2 @@
+env: staging
+k8s_namespace: staging

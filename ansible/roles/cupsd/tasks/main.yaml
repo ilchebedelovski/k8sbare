@@ -1,0 +1,7 @@
+- name: Deploy "{{ release_name }}" to environment "{{ env }}"
+  vars:
+    release_name: cupsd
+    chart_dir: "{{ charts_dir }}/cupsd"
+    vars_path: "{{ playbook_dir }}/roles/cupsd/files/{{ env }}.yaml"
+  include_role:
+    name: deploy-service
