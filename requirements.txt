@@ -30,7 +30,7 @@ python-string-utils==0.6.0  # via openshift
 pyyaml==3.12              # via ansible, kubernetes
 requests-oauthlib==0.8.0  # via kubernetes
 requests==2.14.2          # via kubernetes, requests-oauthlib
-rsa==3.4.2                # via google-auth
+rsa==4.1                # via google-auth
 ruamel.yaml==0.15.37      # via openshift
 six==1.11.0               # via bcrypt, cryptography, google-auth, kubernetes, openshift, pynacl, python-dateutil, websocket-client
 urllib3==1.22             # via kubernetes
