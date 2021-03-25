@@ -27,7 +27,7 @@ pycparser==2.18           # via cffi
 pynacl==1.2.1             # via paramiko
 python-dateutil==2.7.2    # via kubernetes
 python-string-utils==0.6.0  # via openshift
-pyyaml==3.12              # via ansible, kubernetes
+pyyaml==5.4              # via ansible, kubernetes
 requests-oauthlib==0.8.0  # via kubernetes
 requests==2.14.2          # via kubernetes, requests-oauthlib
 rsa==3.4.2                # via google-auth
