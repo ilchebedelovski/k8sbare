@@ -20,7 +20,7 @@ kubernetes==4.0.0         # via openshift
 markupsafe==1.0           # via jinja2
 oauthlib==2.0.7           # via requests-oauthlib
 openshift==0.4.4
-paramiko==2.4.1           # via ansible
+paramiko==2.10.1           # via ansible
 pyasn1-modules==0.2.1     # via google-auth
 pyasn1==0.4.2             # via paramiko, pyasn1-modules, rsa
 pycparser==2.18           # via cffi
