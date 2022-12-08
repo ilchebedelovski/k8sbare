@@ -8,7 +8,7 @@ ansible==2.5.1
 asn1crypto==0.24.0        # via cryptography
 bcrypt==3.1.4             # via paramiko
 cachetools==2.0.1         # via google-auth
-certifi==2018.4.16        # via kubernetes
+certifi==2022.12.7        # via kubernetes
 cffi==1.11.5              # via bcrypt, cryptography, pynacl
 cryptography==2.2.2       # via ansible, paramiko
 dictdiffer==0.7.0         # via openshift
